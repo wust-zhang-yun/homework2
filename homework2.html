@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+      #must {
+        color: red;
+      }
+      div {
+        margin-top: 10px;
+        margin-bottom: 10px;
+      }
+      #text {
+        border-radius: 5px;
+        height: 20px;
+        width: 180px;
+      }
+      #province {
+        width: 90px;
+      }
+      #city {
+        width: 90px;
+      }
+      #test-image-preview {
+        border: 1px solid silver;
+        width: 180px;
+        height: 200px;
+        margin-left: 80px;
+      }
+      label {
+        display: inline-block;
+        width: 80px;
+        text-align: right;
+        font-weight: bold;
+        line-height: 20px;
+      }
+      span {
+        cursor: pointer;
+      }
+      img {
+        vertical-align: bottom;
+        width: 30px;
+        cursor: pointer;
+      }
+      #per {
+        margin-left: 80px;
+        width: 180px;
+      }
+      #section {
+        margin-left: 80px;
+      }
+    </style>
+    <title>Document</title>
+  </head>
+  <body>
+    <form action="URL" method="get"></form>
+    <h3 style="color: blue">欢迎注册会员</h3>
+    <div>
+      <label>手机号码：</label
+      ><input
+        type="text"
+        name="phonenumber"
+        maxlength="11"
+        placeholder="请输入11位手机号"
+        id="text"
+      />
+      <span id="must">必填</span>
+    </div>
+
+    <div>
+      <label>创建密码：</label
+      ><input
+        type="password"
+        name="pwd"
+        maxlength="8"
+        placeholder="长度八个字符"
+        id="text"
+      />
+      <span id="must">必填</span>
+    </div>
+
+    <div>
+      <label>注册邮箱：</label
+      ><input type="text" placeholder="例如：wustzz@sina.com" id="text" />
+      <span id="must">必填</span>
+    </div>
+
+    <div>
+      <label>验证码：</label
+      ><input type="text" name="username" id="text" id="checkcode" />
+      <span id="capcha">5位验证码</span>
+      <img src="images/arrow_03.png" id="change_capcha" />
+    </div>
+
+    <div>
+      <label>性别：</label
+      ><input type="radio" name="sex" value="male" checked="checked" />男
+      <input type="radio" name="sex" value="female" />女
+    </div>
+
+    <div>
+      <label>生日：</label><input type="date" name="birthday" id="text" />
+    </div>
+
+    <div><label>年龄：</label><input type="text" name="age" id="text" /></div>
+
+    <div>
+      <label for="">籍贯：</label
+      ><select name="prv" id="province">
+        <option value="0">选择省</option>
+        <option value="1">湖北</option>
+        <option value="2">湖南</option>
+      </select>
+      <select name="city" id="city">
+        <option value="0">选择市</option>
+      </select>
+    </div>
+
+    <div>
+      <label for="">个人学历：</label
+      ><select name="education" id="text" id="1">
+        <option value="本科">本科</option>
+        <option value="硕士">硕士</option>
+        <option value="博士">博士</option>
+      </select>
+    </div>
+
+    <div>
+      <label>月薪：</label
+      ><input
+        type="range"
+        id="score"
+        name="score"
+        min="2000"
+        max="20000"
+        step="100"
+        value="5000"
+      />
+      <span id="msg"></span>
+    </div>
+
+    <div>
+      <label>个人爱好：</label
+      ><input type="checkbox" name="hobby" value="唱歌" />唱歌
+      <input type="checkbox" name="hobby" value="跑步" />跑步
+      <input type="checkbox" name="hobby" value="游泳" />游泳
+    </div>
+
+    <div>
+      <label>个人照片：</label
+      ><input type="file" name="myfile" accept="文件类型" />
+      <div id="test-image-preview"></div>
+    </div>
+
+    <div>
+      <label id="personal">个人简介：</label><br />
+      <textarea name="intro" cols="30" rows="10" id="per"></textarea>
+    </div>
+    <div id="section">
+      <input type="submit" value="提交" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      <input type="reset" value="重填" />
+    </div>
+
+    <script>
+      var msg = document.getElementById("msg"); // 根据id值找到span元素
+      window.onload = function () {
+        msg.innerHTML = document.getElementById("score").value; // 获取区间域初始value值
+      };
+      document.getElementById("score").onchange = function () {
+        msg.innerHTML = this.value; // 将当前区间域的value作为span元素的内容
+      };
+    </script>
+
+    <script>
+      //验证码：由大小写字母或数字组成
+      let codeStr =
+        "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+      //验证码长度
+      let length = 5;
+      let capcha = document.getElementById("capcha");
+      let change_capcha = document.getElementById("change_capcha");
+      // 用来生成一个[n,m]随机整数
+      function getRandom(n, m) {
+        return parseInt(Math.random() * (m - n + 1) + n);
+      }
+      // 将随机生成的整数下标对应的字母放入span中
+      function getCode() {
+        let str = "";
+        // 验证码有几位就循环几次
+        for (let i = 0; i < length; i++) {
+          let index = getRandom(0, 61);
+          str += codeStr.charAt(index);
+        }
+        capcha.innerHTML = str;
+      }
+      // 页面初始加载时就调用函数生成验证码，页面刷新也会执行
+      getCode();
+      // 点击刷新验证码
+      capcha.addEventListener("click", getCode);
+      change_capcha.addEventListener("click", getCode);
+    </script>
+
+    <script>
+      let province = document.getElementById("province");
+      let city = document.getElementById("city");
+      province.addEventListener("change", createCity);
+      //创建city信息
+      function createCity() {
+        let val = province.value;
+        let ops;
+        switch (val) {
+          case "0": //case用字符串
+            city.innerHTML = '<option value="0">选择市</option>';
+            break;
+          case "1":
+            city.innerHTML = ""; //清空
+            ops = createOp(0, "武汉");
+            city.appendChild(ops);
+            ops = createOp(1, "黄石");
+            city.appendChild(ops);
+            break;
+          case "2":
+            city.innerHTML = "";
+            ops = createOp(0, "长沙");
+            city.appendChild(ops);
+            ops = createOp(1, "湘潭");
+            city.appendChild(ops);
+            break;
+        }
+      }
+      function createOp(val, cname) {
+        let ops = document.createElement("option");
+        ops.value = val;
+        ops.innerHTML = cname;
+        return ops;
+      }
+    </script>
+  </body>
+</html>
